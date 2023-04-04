@@ -11,18 +11,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.text.Text;
 
-public abstract class SampleController {
-    public static void main(String[] args) {
-       
-    	 StoreManager storeManager = new StoreManager();
-         try {
-			storeManager.loadData();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-    
-       
-    }
+public class SampleController {
+
+    @FXML
+    private Button btnBuy;
 
     @FXML
     private Button btnClear;
@@ -183,11 +175,34 @@ public abstract class SampleController {
     void initialize() {
     cbCategory.getItems().addAll("Figure", "Animals", "Puzzle", "Board Game");
     }
-    
-    
+
+    @FXML
+    void btnBuyHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnClearHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnRemoveHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnSaveHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnSearchHandler(ActionEvent event) {
+
+    }
+
     @FXML
     void rbNameHandler(ActionEvent event) {
-    	
 
     }
 
@@ -202,3 +217,4 @@ public abstract class SampleController {
     }
 
 }
+
