@@ -228,15 +228,15 @@ public class StoreManager {
 	public void removeAToy(String serialNumber) {
 		for (Toy t:listOfToys) {
             if (t.getSerialNumber().equals(serialNumber)) {
-                String option = appMen.toyToRemove(t);
-				if (option.equals("y")){
+               // String option = appMen.toyToRemove(t);
+				//if (option.equals("y")){
 					listOfToys.remove(t);
-					appMen.toyRemoved();
-				}
+				//	appMen.toyRemoved();
+				//}
 				return;
 			}
 		}
-		appMen.noItem();
+		//appMen.noItem();
 	}
 	
 	public void Save()  {

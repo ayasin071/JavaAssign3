@@ -199,6 +199,7 @@
                            </font>
                         </Text>
                         <TextField fx:id="tfSN1" layoutX="101.0" layoutY="180.0" />
+                        <Button fx:id="btnSearchRemove" layoutX="131.0" layoutY="250.0" mnemonicParsing="false" onAction="#btnSearchRemoveHandler" prefHeight="25.0" prefWidth="104.0" text="Searcg">
                         <Button fx:id="btnRemove" layoutX="131.0" layoutY="350.0" mnemonicParsing="false" onAction="#btnRemoveHandler" prefHeight="25.0" prefWidth="104.0" text="Remove">
                            <font>
                               <Font size="15.0" />

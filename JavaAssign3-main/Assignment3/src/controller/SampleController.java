@@ -14,12 +14,15 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import model.Animals;
+import model.BoardGames;
 import model.Figures;
 import model.Puzzles;
 import model.Toy;
 
 public class SampleController {
     StoreManager sm;
+    ArrayList<Toy> selectedToys;
+    int SelectedIndex = 0;
     @FXML
     private Button btnBuy;
 
@@ -28,6 +31,9 @@ public class SampleController {
 
     @FXML
     private Button btnRemove;
+    
+    @FXML
+    private Button btnSearchRemove;
 
     @FXML
     private Button btnSave;
@@ -40,6 +46,8 @@ public class SampleController {
 
     @FXML
     private ListView<String> lvHome;
+    @FXML
+    private ListView<String> lvRemove;
 
     @FXML
     private ToggleGroup rb1;
@@ -190,8 +198,6 @@ public class SampleController {
     @FXML
     void initialize(){
         cbCategory.getItems().addAll("Figure", "Animals", "Puzzle", "Board Game");
-       
-
     }
     public SampleController(){
         
@@ -209,17 +215,25 @@ public class SampleController {
 
     @FXML
     void btnBuyHandler(ActionEvent event) {
-        sm.purchaseToy(null);;
+        Toy selecteedToy = selectedToys.get(SelectedIndex);
+        sm.purchaseToy(selecteedToy);
+        sm.Save();
     }
 
     @FXML
     void btnClearHandler(ActionEvent event) {
-        System.out.print("1234");
+        lvHome.getItems().clear();
+        tfNameSearch.setText("");
+        tfSerNumSearch.setText("");
+        tfTypeSearch.setText("");
     }
 
     @FXML
     void btnRemoveHandler(ActionEvent event) {
-       
+        String sn = tfSN1.getText();
+        sm.removeAToy(sn);
+            sm.Save();
+            lvRemove.getItems().add("Item Removed");
     }
 
     @FXML
@@ -269,28 +283,44 @@ public class SampleController {
             Toy t = new Puzzles(sn, name, brand, price , avalablecount, ageappropriate, ptype);
             sm.addNewToy(t);
         }
+        if (category == "Board Game"){
+            String sn = tfSN.getText();
+            String name = tfName.getText();
+            String brand = tfBrand.getText();
+            String priceStr = tfPrice.getText();
+            Double price = Double.parseDouble(priceStr);
+            String avalablecountStr = tfAvailCount.getText();
+            Integer avalablecount = Integer.parseInt(avalablecountStr);
+            String ageappropriateStr = tfAgeAppr.getText();
+            Integer ageappropriate = Integer.parseInt(ageappropriateStr);
+            String maxStr = tfMaxPlayers.getText();
+            Integer max = Integer.parseInt(maxStr);
+            String minStr = tfMinPlayers.getText();
+            Integer min = Integer.parseInt(minStr);
+            String designer = tfDesigner.getText();
+            Toy t = new BoardGames(sn, name, brand, price , avalablecount, ageappropriate, max, min, designer );
+            sm.addNewToy(t);
+        }
         sm.Save();
-
     }
 
     @FXML
     void btnSearchHandler(ActionEvent event) {
-        ArrayList<Toy> toys;
         if (rbName.isSelected()){
             String name = tfNameSearch.getText();
-            toys = sm.searchByName(name);
+            selectedToys = sm.searchByName(name);
         }else if 
         (rbSerNum.isSelected()){
             String SN = tfSerNumSearch.getText();
-            toys = sm.getToyBySerialNumber(SN);
+            selectedToys = sm.getToyBySerialNumber(SN);
         }else{
             String type = tfTypeSearch.getText();
-            toys = sm.ByType(type);
+            selectedToys = sm.ByType(type);
         }
         // adding toys to GUI list 
         lvHome.getItems().clear();
-        for(int n=0; n<toys.size(); n++){
-			String s = String.format("(%d) %s\n",n +1 , toys.get(n).formatToScreen());
+        for(int n=0; n<selectedToys.size(); n++){
+			String s = String.format("(%d) %s\n",n +1 , selectedToys.get(n).formatToScreen());
             lvHome.getItems().add(s);
 		}
     }
@@ -311,9 +341,18 @@ public class SampleController {
     }
     @FXML
     void lvHomeClickHandler(MouseEvent event) {
-        lvHome.getSelectionModel().getSelectedIndex();	
-        
-        
+        SelectedIndex = lvHome.getSelectionModel().getSelectedIndex();	
+
+    }
+    @FXML
+    void btnSearchRemoveHandler(ActionEvent event) {
+        String SN = tfSN1.getText();
+        selectedToys = sm.getToyBySerialNumber(SN);
+        lvRemove.getItems().clear();
+        for(int n=0; n<selectedToys.size(); n++){
+			String s = String.format("(%d) %s\n",n +1 , selectedToys.get(n).formatToScreen());
+            lvRemove.getItems().add(s);
+		}
     }
 
 }
